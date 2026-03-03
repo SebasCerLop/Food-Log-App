@@ -62,6 +62,7 @@ const Register = () => {
         notificationsEnabled: true,
       })
       Alert.alert('Success', 'Account created. You can now log in.')
+      router.replace('/login')
     }
   
     setLoading(false)
@@ -79,6 +80,9 @@ const Register = () => {
       <TextInput testID="Password" value={password} onChangeText={setPassword} placeholder="Password" placeholderTextColor="gray" style={styles.input} secureTextEntry/>
   
       <Button testID="Submit" title="Submit" onPress={signUpWithEmail} disabled={loading} />
+      <View style={styles.secondaryButton}>
+        <Button testID="BackToLogin" title="Back to Login" onPress={() => router.replace('/login')} disabled={loading} />
+      </View>
     </View>
   )
 }
@@ -91,5 +95,8 @@ const styles = StyleSheet.create({
       padding: 20,
       borderColor: '#000',
       borderWidth: 1
+    },
+    secondaryButton: {
+      marginTop: 12,
     }
 })

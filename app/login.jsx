@@ -84,6 +84,9 @@ const Login = () => {
       <Text style={{paddingBottom:5}}>Enter password</Text>
       <TextInput testID="Password" value={password} onChangeText={setPassword} placeholder="Password" placeholderTextColor="gray" style={styles.input} secureTextEntry/>
       <Button testID="Login" title="Login" onPress={signInWithEmail} disabled={loading} />
+      <View style={styles.secondaryButton}>
+        <Button testID="GoToRegister" title="Create New Account" onPress={() => router.push('/register')} disabled={loading} />
+      </View>
     </View>
   )
 }
@@ -96,5 +99,8 @@ const styles = StyleSheet.create({
       padding: 20,
       borderColor: '#000',
       borderWidth: 1
+    },
+    secondaryButton: {
+      marginTop: 12,
     }
 })
