@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Button, Platform, Alert } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react'
+import { router } from 'expo-router'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../AuthContext'
 
@@ -8,12 +9,25 @@ const settings = () => {
   const { setAuth } = useAuth()
 
   const onLogout = async ()=>{
-    setAuth(null)
     const {error} = await supabase.auth.signOut()
-    if (Platform.OS === 'web') {
-        if (error) window.alert('Error signing out')
+    if (error) {
+      if (Platform.OS === 'web') {
+        window.alert('Error signing out')
+      } else {
+        Alert.alert('Error signing out')
+      }
+      return
     }
-    if (error) Alert.alert('Error signing out')
+
+    setAuth(null)
+
+    if (Platform.OS === 'web') {
+      window.alert('Signed out successfully')
+    } else {
+      Alert.alert('Signed Out', 'You have been signed out successfully')
+    }
+
+    router.replace('/login')
   }
 
   const removeUserData = async () => {

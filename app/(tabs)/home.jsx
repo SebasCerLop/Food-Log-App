@@ -1,13 +1,18 @@
 import { StyleSheet, View, Text, Pressable } from "react-native";
 import React from "react";
 import { navigate } from "expo-router/build/global-state/routing";
+import { useAuth } from "../AuthContext";
 
 const home = () => {
+  const { user } = useAuth();
+  const userName = user?.user_metadata?.name || user?.email?.split('@')[0] || 'User';
+
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.title}>Food Log Dashboard</Text>
+        <Text style={styles.welcomeText}>Welcome back, {userName}!</Text>
         <Text style={styles.subtitle}>
           Track food, symptoms & get health insights
         </Text>
@@ -86,6 +91,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 18,            // ⬅ BIGGER SUBTITLE
     color: "#e0e7ff",
+  },
+  welcomeText: {
+    marginTop: 10,
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#ffffff",
   },
 
   /* 🔵 CARDS */

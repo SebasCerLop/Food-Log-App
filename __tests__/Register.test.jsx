@@ -2,6 +2,7 @@ import React from 'react'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react-native'
 import Register from '../app/register'
 import { supabase } from '../lib/supabase'
+import { router } from 'expo-router'
 
 // Mock the supabase module
 jest.mock('../lib/supabase', () => ({
@@ -14,6 +15,18 @@ jest.mock('../lib/supabase', () => ({
 
 // Mock React Native modules using the mocks from __mocks__/react-native.js
 jest.mock('react-native')
+
+jest.mock('expo-router', () => ({
+  router: {
+    replace: jest.fn()
+  }
+}))
+
+jest.mock('../app/AuthContext', () => ({
+  useAuth: () => ({
+    user: null
+  })
+}))
 
 describe('Register Component', () => {
   beforeEach(() => {

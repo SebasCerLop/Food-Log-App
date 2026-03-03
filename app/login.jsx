@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, TextInput, Alert, Button, Platform } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { router } from 'expo-router'
 import { supabase } from '../lib/supabase'
 import { sendWelcomeWithLogsLink } from '../utils/notifications'
 import { useAuth } from './AuthContext'
@@ -9,7 +10,13 @@ const Login = () => {
   const [email, setEmail] = useState('')  
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const { setAuth } = useAuth()
+  const { setAuth, user } = useAuth()
+
+  useEffect(() => {
+    if (user) {
+      router.replace('/(tabs)/home')
+    }
+  }, [user])
 
   async function signInWithEmail () {
     if (email.trim() === '' || password.trim() === '') {
@@ -62,6 +69,8 @@ const Login = () => {
         } else {
           Alert.alert('Login successful', `Welcome back, ${userName}!`)
         }
+
+        router.replace('/(tabs)/home')
       }
     }
 

@@ -20,11 +20,11 @@ export default function RootIndex() {
           router.replace('/(tabs)/home')
         } else {
           setAuth(null)
-          router.replace('/welcome')
+          router.replace('/login')
         }
       } catch (error) {
         console.error('Auth check error:', error)
-        router.replace('/welcome')
+        router.replace('/login')
       } finally {
         setIsChecking(false)
       }
@@ -40,7 +40,7 @@ export default function RootIndex() {
           router.replace('/(tabs)/home')
         } else {
           setAuth(null)
-          router.replace('/welcome')
+          router.replace('/login')
         }
       }
     )

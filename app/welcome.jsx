@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { useRouter } from "expo-router";
+import { useAuth } from "./AuthContext";
 
 export default function WelcomeScreen() {
   const router = useRouter();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      router.replace('/(tabs)/home')
+    }
+  }, [user, router])
 
   return (
     <View style={styles.background}>

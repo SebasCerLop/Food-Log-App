@@ -6,9 +6,12 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
+  Platform,
   Switch,
 } from 'react-native';
 import { useRouter } from 'expo-router';
+import { supabase } from '../lib/supabase';
+import { useAuth } from './AuthContext';
 import { clearAllLogs } from '../utils/storage';
 import { 
   scheduleMealReminders, 
@@ -22,6 +25,7 @@ import {
 
 const Settings = () => {
   const router = useRouter();
+  const { setAuth } = useAuth();
   const [notifications, setNotifications] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
   const [dataSync, setDataSync] = useState(true);
@@ -35,10 +39,25 @@ const Settings = () => {
         {
           text: 'Sign Out',
           style: 'destructive',
-          onPress: () => {
-            // TODO: Implement actual sign out logic when authentication is fully integrated
-            Alert.alert('Signed Out', 'You have been signed out successfully');
-            router.push('/login');
+          onPress: async () => {
+            const { error } = await supabase.auth.signOut();
+
+            if (error) {
+              if (Platform.OS === 'web') {
+                window.alert('Error signing out');
+              } else {
+                Alert.alert('Error signing out');
+              }
+              return;
+            }
+
+            setAuth(null);
+            if (Platform.OS === 'web') {
+              window.alert('Signed out successfully');
+            } else {
+              Alert.alert('Signed Out', 'You have been signed out successfully');
+            }
+            router.replace('/login');
           }
         }
       ]

@@ -1,13 +1,22 @@
 import { StyleSheet, Text, View, TextInput, Alert, Button, Platform } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { router } from 'expo-router'
 import { supabase } from '../lib/supabase'
 import { saveUserData } from '../utils/storage'
+import { useAuth } from './AuthContext'
 
 const Register = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')  
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+  const { user } = useAuth()
+
+  useEffect(() => {
+    if (user) {
+      router.replace('/(tabs)/home')
+    }
+  }, [user])
 
   async function signUpWithEmail () {
     if (email.trim() === '' || password.trim() === '') {
